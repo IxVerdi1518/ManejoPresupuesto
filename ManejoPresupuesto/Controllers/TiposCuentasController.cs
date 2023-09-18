@@ -13,6 +13,11 @@ namespace ManejoPresupuesto.Controllers
         /*El IAction devuleve cualquier tipo de resultado como json,etc*/
         public IActionResult Crear(TipoCuenta tipoCuenta)
         {
+            /*Valida lo que venga los requerimientos del modelo*/
+            if(!ModelState.IsValid)
+            {
+                return View(tipoCuenta);
+            }
             return View();
         }
     }
