@@ -11,7 +11,7 @@ namespace ManejoPresupuesto.Models
         //[Display(Name ="Nombre del Tipo Cuenta")]
         [PrimeraLetraMayuscula]
         public string Nombre { get; set; }
-        public int UsuarioUd { get; set; }
+        public int UsuarioId { get; set; }
         public int Orden { get; set; }
 
         //Pruebas de otros tipos de validaciones
