@@ -12,25 +12,43 @@
         <label asp-for="Nombre" class="form-label"></label>
         @*Lo que hace el imput es lo mismo que arriba que valida segun el campo a donde tiene que enviar la informacion*@
         <input type="text" asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+
     </div>
 
     @*De los otro ejemplos de validaciones*@
-    <div class="mb-3">
+    @* <div class="mb-3">
         <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" class="form-control" />
-    </div>
+        <input asp-for="Email" class="form-control" /> *@
+        @*Para que muesre las valdiaciones dentro de cada campo se lo hace por javascript y se utilza solo de spans*@
+        @*Revisar el archivo validation scripts partial para reviar el jscript*@
+@*         <span asp-validation-for="Email" class="text-danger"></span>
+ *@    @* </div>
     <div class="mb-3">
         <label asp-for="Edad" class="form-label"></label>
         <input asp-for="Edad" class="form-control" />
+        <span asp-validation-for="Edad" class="text-danger"></span>
+
     </div>
     <div class="mb-3">
         <label asp-for="URL" class="form-label"></label>
         <input asp-for="URL" class="form-control" />
+        <span asp-validation-for="URL" class="text-danger"></span>
+
     </div>
     <div class="mb-3">
         <label asp-for="TarjetaDeCredito" class="form-label"></label>
         <input asp-for="TarjetaDeCredito" class="form-control" />
-    </div>
+        <span asp-validation-for="TarjetaDeCredito" class="text-danger"></span>
+
+    </div> *@
 
     <button type="submit" class="btn btn-primary">Enviar</button>
 </form>
+
+@section Scripts{
+    @*Estas son valdiaciones por default que se van cargando por jerarquia y aqui solo se lo invoca a lo que ya esta
+        Ver tambien lo que tiene ese archivo para ver lo que se escribio
+    *@
+    <partial name="_ValidationScriptsPartial" />
+}
