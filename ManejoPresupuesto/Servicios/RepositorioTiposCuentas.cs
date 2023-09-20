@@ -9,6 +9,7 @@ namespace ManejoPresupuesto.Servicios
     {
         Task Crear(TipoCuenta tipoCuenta);
         Task<bool> Existe(string nombre, int usuarioId);
+        Task<IEnumerable<TipoCuenta>> Obtener(int usuarioId);
     }
     public class RepositorioTiposCuentas: IRepositorioTiposCuentas
     {
@@ -37,6 +38,14 @@ namespace ManejoPresupuesto.Servicios
             /*con QueryFirstOrDefaultAsync compuruba que exista un solo registro o si no existe como trae un int pues el default seria 0 lo cual significa que no existe*/
             var existe = await connection.QueryFirstOrDefaultAsync<int>(@"SELECT 1 FROM TiposCuentas WHERE Nombre=@Nombre AND UsuarioId=@UsuarioId", new {nombre,usuarioId});
             return existe==1;
+        }
+        /*Metodo para enlistar todo lo que venga desde la base de datos segun el usuario*/
+        /*El Ienumerable sirve como enlistar*/
+        public async Task<IEnumerable<TipoCuenta>> Obtener(int usuarioId)
+        {
+            using var connection = new SqlConnection(connectionString);
+            /*El queey siguiente es justamente para obteener el select y que va a tomar todo lo que venga y retorna un TipoCuenta*/
+            return await connection.QueryAsync<TipoCuenta>(@"SELECT id, Nombre,Orden FROM TiposCuentas WHERE UsuarioId=@UsuarioId", new {usuarioId});
         }
     }
 }

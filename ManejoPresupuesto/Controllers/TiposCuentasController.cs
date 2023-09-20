@@ -14,6 +14,12 @@ namespace ManejoPresupuesto.Controllers
         {
             this.repositorioTiposCuentas = repositorioTiposCuentas;
         }
+        public async Task<IActionResult> Index()
+        {
+            var usuarioId = 1;
+            var tiposCuentas = await repositorioTiposCuentas.Obtener(usuarioId);
+            return View(tiposCuentas);
+        }
         public IActionResult Crear()
         {
             return View();
@@ -40,7 +46,8 @@ namespace ManejoPresupuesto.Controllers
             }
             /*Ocupa el metodo de crear en base al modelo*/
             await repositorioTiposCuentas.Crear(tipoCuenta);
-            return View();
+            /*Una vez hecho todo, redirecciona al index*/
+            return RedirectToAction("Index");
         }
         /*Para poder validar sin necesidad de enviar el formulario se tiene que hacer una peticion al servidor de tipo get*/
         [HttpGet]
