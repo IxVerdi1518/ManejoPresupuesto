@@ -9,14 +9,17 @@ namespace ManejoPresupuesto.Controllers
     public class TiposCuentasController: Controller
     {
         private readonly IRepositorioTiposCuentas repositorioTiposCuentas;
+        private readonly IServiciosUsuarios serviciosUsuarios;
+
         /*Llama para la interfaz previa configutacion del servicio en el program*/
-        public TiposCuentasController(IRepositorioTiposCuentas repositorioTiposCuentas)
+        public TiposCuentasController(IRepositorioTiposCuentas repositorioTiposCuentas, IServiciosUsuarios serviciosUsuarios)
         {
             this.repositorioTiposCuentas = repositorioTiposCuentas;
+            this.serviciosUsuarios = serviciosUsuarios;
         }
         public async Task<IActionResult> Index()
         {
-            var usuarioId = 1;
+            var usuarioId = serviciosUsuarios.ObtenerUsuarioId();
             var tiposCuentas = await repositorioTiposCuentas.Obtener(usuarioId);
             return View(tiposCuentas);
         }
@@ -34,7 +37,7 @@ namespace ManejoPresupuesto.Controllers
                 return View(tipoCuenta);
             }
             /*Quema el ususairo id de momento*/
-            tipoCuenta.UsuarioId = 1;
+            tipoCuenta.UsuarioId = serviciosUsuarios.ObtenerUsuarioId();
             /*Crea una variable para ocupar la clase que comprueba si ya existe ese registro y le manda las varables necesarias*/
             var yaExisteTipoCuenta = await repositorioTiposCuentas.Existe(tipoCuenta.Nombre, tipoCuenta.UsuarioId);
             if (yaExisteTipoCuenta)
@@ -54,7 +57,7 @@ namespace ManejoPresupuesto.Controllers
         public async Task<IActionResult> VerificarExisteTipoCuenta(string nombre)
         {
             /*Con el mismo metodo que ya se creo para verificar la existencia*/
-            var usuarioId = 1;
+            var usuarioId = serviciosUsuarios.ObtenerUsuarioId();
             var yaExisteTipoCuenta = await repositorioTiposCuentas.Existe(nombre, usuarioId);
             if (yaExisteTipoCuenta)
             {
