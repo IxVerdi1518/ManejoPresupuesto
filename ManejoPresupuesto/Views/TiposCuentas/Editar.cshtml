@@ -1,0 +1,27 @@
+﻿@model TipoCuenta
+@{
+    ViewData["Title"] = "Editar Tipo Cuenta";
+}
+
+<h1>Editar Tipo Cuenta: @Model.Nombre</h1>
+
+<form asp-action="Editar">
+    <input type="hidden" asp-for="Id" />
+    <div class="mb-3">
+        @*Lo que hace estos tag helpers es que con el asp-for le asigna segun los campos tomados del modelo las validaciones*@
+        <label asp-for="Nombre" class="form-label"></label>
+        @*Lo que hace el imput es lo mismo que arriba que valida segun el campo a donde tiene que enviar la informacion*@
+        <input type="text" asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+    <!--Boton para regresar al index-->
+    <a class="btn btn-secondary" asp-action="Index">Cancelar</a>
+</form>
+
+@section Scripts{
+    @*Estas son valdiaciones por default que se van cargando por jerarquia y aqui solo se lo invoca a lo que ya esta
+        Ver tambien lo que tiene ese archivo para ver lo que se escribio
+    *@
+    <partial name="_ValidationScriptsPartial" />
+}
