@@ -42,6 +42,19 @@ namespace ManejoPresupuesto.Controllers
             await repositorioTiposCuentas.Crear(tipoCuenta);
             return View();
         }
-        
+        /*Para poder validar sin necesidad de enviar el formulario se tiene que hacer una peticion al servidor de tipo get*/
+        [HttpGet]
+        public async Task<IActionResult> VerificarExisteTipoCuenta(string nombre)
+        {
+            /*Con el mismo metodo que ya se creo para verificar la existencia*/
+            var usuarioId = 1;
+            var yaExisteTipoCuenta = await repositorioTiposCuentas.Existe(nombre, usuarioId);
+            if (yaExisteTipoCuenta)
+            {
+                /*Lo que transforma es en json*/
+                return Json($"El nombre {nombre} ya existe");
+            }
+            return Json(true);
+        }
     }
 }
