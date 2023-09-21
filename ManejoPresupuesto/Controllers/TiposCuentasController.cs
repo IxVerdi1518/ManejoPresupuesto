@@ -128,5 +128,29 @@ namespace ManejoPresupuesto.Controllers
             }
             return Json(true);
         }
+
+        /*Metodo para ordenar*/
+        /*Este metodo lo que recibe es todo el contenido de la peticion que viene del http, y recibe los ids de cada ingreso*/
+        [HttpPost]
+        public async Task<IActionResult> Ordenar([FromBody] int[] ids)
+        {
+            var usuarioId = serviciosUsuarios.ObtenerUsuarioId();
+            /*Para traer todo lo que esta en la tabla y ordenar segun el orden*/
+            var tiposCuentas=await repositorioTiposCuentas.Obtener(usuarioId);
+            /*Trae todos lo ids*/
+            var idsTiposCuentas=tiposCuentas.Select(x => x.Id);
+            /*Comprueba la integridad de los datos compribando que sea el mismo id, sino devuekve un error*/
+            var idsTiposCuentasNoPertenecenAlUsuario=ids.Except(idsTiposCuentas).ToList();
+            /*Por lo que si llega a existir mas de 1 registro no es unico y debe de manda run error*/
+            if (idsTiposCuentasNoPertenecenAlUsuario.Count > 0)
+            {
+                /*Devuelve un error 403*/
+                return Forbid();
+            }
+            /*Una vez ordenados estos se van agrupando segun +1 para que tengan el orden*/
+            var tiposCuentasOrdenados = ids.Select((valor, indice) => new TipoCuenta() { Id = valor, Orden = indice + 1 }).AsEnumerable();
+            await repositorioTiposCuentas.Ordenar(tiposCuentasOrdenados);
+            return Ok();
+        }
     }
 }
