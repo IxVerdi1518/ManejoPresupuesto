@@ -87,6 +87,33 @@ namespace ManejoPresupuesto.Controllers
             return RedirectToAction("Index");
         }
 
+        /*Metodo para enviar a la vista de borrar sigueidno la misma logica de editar*/
+        [HttpGet]
+        public async Task<IActionResult> Borrar(int id)
+        {
+            var usuarioId = serviciosUsuarios.ObtenerUsuarioId();
+            var tipoCuenta = await repositorioTiposCuentas.ObtenerPorId(id, usuarioId);
+            if(tipoCuenta is null)
+            {
+                return RedirectToAction("NoEncontrado", "Home");
+            }
+            return View(tipoCuenta);
+        }
+
+        /*Metodo para realziar el borrado*/
+        [HttpPost]
+        public async Task<IActionResult> BorrarTipoCuenta(int id)
+        {
+            var usuarioId = serviciosUsuarios.ObtenerUsuarioId();
+            var tipoCuenta = await repositorioTiposCuentas.ObtenerPorId(id, usuarioId);
+            if (tipoCuenta is null)
+            {
+                return RedirectToAction("NoEncontrado", "Home");
+            }
+            await repositorioTiposCuentas.Borrar(id);
+            return RedirectToAction("Index");
+        }
+
         /*Para poder validar sin necesidad de enviar el formulario se tiene que hacer una peticion al servidor de tipo get*/
         [HttpGet]
         public async Task<IActionResult> VerificarExisteTipoCuenta(string nombre)

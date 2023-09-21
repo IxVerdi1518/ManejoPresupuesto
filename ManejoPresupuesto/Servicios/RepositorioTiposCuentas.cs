@@ -8,6 +8,7 @@ namespace ManejoPresupuesto.Servicios
     public interface IRepositorioTiposCuentas
     {
         Task Actualizar(TipoCuenta tipoCuenta);
+        Task Borrar(int id);
         Task Crear(TipoCuenta tipoCuenta);
         Task<bool> Existe(string nombre, int usuarioId);
         Task<IEnumerable<TipoCuenta>> Obtener(int usuarioId);
@@ -68,6 +69,13 @@ namespace ManejoPresupuesto.Servicios
             using var connection = new SqlConnection(connectionString);
             /*Lo que devuelve es el valor verdadero que si existe un unico resultado, lo permita ocupar, caso contrario existe y no lo deja, tiene que reflejar si o si que es unico*/
             return await connection.QueryFirstOrDefaultAsync<TipoCuenta>(@"SELECT Id,Nombre,Orden FROM TiposCuentas WHERE Id=@Id AND UsuarioId=@UsuarioId", new {id,usuarioId});
+        }
+
+        /*Metodo para eliminar un registro*/
+        public async Task Borrar(int id)
+        {
+            using var connection = new SqlConnection(connectionString);
+            await connection.ExecuteAsync(@"DELETE TiposCuentas WHERE Id= @Id", new {id});
         }
     }
 }
