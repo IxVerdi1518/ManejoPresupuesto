@@ -7,6 +7,7 @@ builder.Services.AddControllersWithViews();
 //Para los servicios
 builder.Services.AddTransient<IRepositorioTiposCuentas,RepositorioTiposCuentas>();
 builder.Services.AddTransient<IServiciosUsuarios,ServicioUsuarios>();
+builder.Services.AddTransient<IRepositorioCuentas,RepositorioCuentas>();
 
 var app = builder.Build();
 
