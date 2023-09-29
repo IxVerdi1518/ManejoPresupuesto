@@ -20,6 +20,22 @@ namespace ManejoPresupuesto.Controllers
             this.repositorioCuentas = repositorioCuentas;
         }
 
+        public async Task<IActionResult> Index()
+        {
+            var usuarioId = serviciosUsuarios.ObtenerUsuarioId();
+            var cuentasConTipoCuenta = await repositorioCuentas.Buscar(usuarioId);
+            /*Aqui llama al metodo que esta en el repo y lo ocupa porque es para listar todo lo que venga segun el tipo de cuenta*/
+            var modelo = cuentasConTipoCuenta
+                /*Tomando los datos, lo que hace es agrupar por tipos ceunta*/
+                .GroupBy(x=> x.TipoCuenta)
+                .Select(grupo=>new IndiceCuentasViewModel
+                {
+                    TipoCuenta = grupo.Key,
+                    Cuentas=grupo.AsEnumerable()
+                }).ToList();
+            return View(modelo);
+        }
+
         /*Metodo para mandar a la vista de crear*/
         [HttpGet]
         public async Task<IActionResult> Crear()
