@@ -20,6 +20,10 @@ namespace ManejoPresupuesto.Servicios
             connectioString = configuration.GetConnectionString("DefaultConnection");
         }
 
+        public RepositorioCategorias()
+        {
+        }
+
         public async Task Crear(Categoria categoria)
         {
             using var connection = new SqlConnection(connectioString);

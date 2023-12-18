@@ -20,6 +20,10 @@ namespace ManejoPresupuesto.Servicios
             connectionString = configuration.GetConnectionString("DefaultConnection"); 
         }
 
+        public RepositorioCuentas()
+        {
+        }
+
         public async Task Crear(Cuenta cuenta)
         {
             using var connection = new SqlConnection(connectionString);
