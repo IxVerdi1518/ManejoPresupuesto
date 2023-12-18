@@ -5,12 +5,14 @@ namespace ManejoPresupuesto.Models
 {
     public class Cuenta
     {
+        [Range(1, int.MaxValue)]
         public int Id { get; set; }
         [Required(ErrorMessage ="El campo {0} es requerido")]
         [StringLength(maximumLength:50)]
         [PrimeraLetraMayuscula]
         public string Nombre { get; set; }
         [Display(Name ="Tipo Cuenta")]
+        [Range(1,int.MaxValue)]
         public int TipoCuentaId { get; set; }
         public decimal Balance { get; set; }
         [StringLength(maximumLength:1000)]
